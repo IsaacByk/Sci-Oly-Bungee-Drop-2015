@@ -1,3 +1,33 @@
 //SCI-Oly-Bungee-Drop-2015
 //Collaboratively built on GitHub for public use and the betterment of Science Olympiad!
 
+ unsigned pulse = 0; 
+ int sig = 9; // read pin 
+ unsigned readout = 0; 
+ void setup()
+ {
+ Serial.begin(9600); // just chosen as default.... not really sure what the baud rate does... could it help get faster readings?
+ pinMode(sig,OUTPUT);
+ }
+ unsigned ping(){
+ pinMode(sig, OUTPUT); //9 to out.
+ digitalWrite(sig, LOW); 
+ delayMicroseconds(1); // 1 mic. sec. delay
+ digitalWrite(sig, HIGH); 
+ delayMicroseconds(1); // ""    ""
+ digitalWrite(sig, LOW); 
+ pinMode(sig, INPUT); // 9 to in.
+ digitalWrite(sig, HIGH); // 
+  pulse = pulseIn(sig, HIGH); //get input
+  readout = (pulse / 58.138); //pulse to cm. **this line is stolen from some code online for the conversion**
+ return readout;
+ }
+ void loop()
+ {
+ int x = 0;
+ x = ping();
+  Serial.println(x);
+  delay(100); //delay reading between input and display.... 1/10th second.....just gives me time to see how acurate the reading is.
+  //This thing keeps maxing out at 50 cm.... is something wrong with the code or should it be reading further?
+ }
+ 
